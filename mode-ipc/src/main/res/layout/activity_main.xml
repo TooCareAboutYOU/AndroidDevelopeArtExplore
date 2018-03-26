@@ -27,4 +27,81 @@
             android:layout_height="wrap_content"
             android:text="关闭AIDL通信"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="ContentProvider"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_open_Provider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开启Provider"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="BinderPool"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_open_BinderPool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开启BinderPool"/>
+    </LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Socket"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_open_Socket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开启Socket"/>
+        <EditText
+            android:id="@+id/et_txt_msg"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:hint="输入消息"/>
+        <Button
+            android:id="@+id/btn_send_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="发送"/>
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_getTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""/>
+    </ScrollView>
+
+
 </android.support.v7.widget.LinearLayoutCompat>

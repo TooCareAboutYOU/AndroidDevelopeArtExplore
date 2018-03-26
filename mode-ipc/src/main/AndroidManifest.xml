@@ -2,6 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.developeartexplore.mode_ipc.main">
 
+    <!-- adb uninstall com.developeartexplore.mode_ipc.main -->
+    <!-- adb install E:\work\AndroidDevelopeArtExplore\mode-ipc\build\outputs\apk\debug\mode-ipc-debug.apk -->
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <!-- 自定义AIDL权限验证 方式一 -->
+    <permission
+        android:name="com.developeartexplore.mode_ipc.main.permission.ACCESS_BOOK_SERVICE"
+        android:protectionLevel="normal"/>
+
+    <uses-permission android:name="com.developeartexplore.mode_ipc.main.permission.ACCESS_BOOK_SERVICE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,8 +30,25 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.BookManagerService" android:process=":remote"/>
+        <service
+            android:name=".service.BookManagerService"
+            android:process=":remote"/>
 
+        <provider
+            android:name=".providers.BookProvider"
+            android:authorities="com.developeartexplore.mode_ipc.main.providers"
+            android:permission="com.developeartexplore.mode_ipc.main.PROVIDER"
+            android:process=":provider"/>
+
+        <service
+            android:name=".sockets.SocketService"
+            android:process=":chatSocket"/>
+
+
+        <service android:name=".binders.BinderPoolService" >
+
+
+        </service>
     </application>
 
 </manifest>

@@ -11,6 +11,8 @@ public class Book implements Parcelable {
     private int bookId;
     private String bookName;
 
+    public Book() {
+    }
 
     public Book(int bookId, String bookName) {
         this.bookId = bookId;
@@ -38,8 +40,20 @@ public class Book implements Parcelable {
         return bookId;
     }
 
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
+    }
+
     public String getBookName() {
         return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
+    public static Creator<Book> getCREATOR() {
+        return CREATOR;
     }
 
     @Override
