@@ -1,1 +1,1 @@
-include ':app', ':mode-ipc'
+include ':app', ':mode-ipc', ':module_view'

@@ -45,10 +45,8 @@
             android:process=":chatSocket"/>
 
 
-        <service android:name=".binders.BinderPoolService" >
+        <service android:name=".binders.BinderPoolService"  />
 
-
-        </service>
     </application>
 
 </manifest>

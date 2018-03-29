@@ -93,27 +93,29 @@
                  new Thread(){
                      @Override
                      public void run() {
-                         BinderPool binderPool=BinderPool.getInstance(MainActivity.this);
-                         IBinder securityBinder=binderPool.queryBinder(BinderPool.BINDER_SECURITY_CENTER);
-                         mISecurityCenter= BinderPool.SecurityCenterImpl.asInterface(securityBinder);
-                         Log.i(BinderPoolService.TAG, "Client --> visit: mSecurityCenter" );
-                         String msg="helloworld-android";
-                         Log.i(BinderPoolService.TAG, "Client --> 待加密数据: "+msg);
-                         try {
-                             String enMsg=mISecurityCenter.encypt(msg);
-                             Log.i(BinderPoolService.TAG, "Client --> 加密enMsg："+enMsg);
-                             String deMsg=mISecurityCenter.encypt(enMsg);
-                             Log.i(BinderPoolService.TAG, "Client --> 解密deMsg："+deMsg);
-                         } catch (RemoteException e) {
-                             e.printStackTrace();
-                         }
+                         synchronized (MainActivity.class) {
+                             BinderPool binderPool = BinderPool.getInstance(MainActivity.this);
+                             IBinder securityBinder = binderPool.queryBinder(BinderPool.BINDER_SECURITY_CENTER);
+                             mISecurityCenter = BinderPool.SecurityCenterImpl.asInterface(securityBinder);
+                             Log.i(BinderPoolService.TAG, "Client --> visit: mSecurityCenter");
+                             String msg = "helloworld-android";
+                             Log.i(BinderPoolService.TAG, "Client --> 待加密数据: " + msg);
+                             try {
+                                 String enMsg = mISecurityCenter.encypt(msg);
+                                 Log.i(BinderPoolService.TAG, "Client --> 加密enMsg：" + enMsg);
+                                 String deMsg = mISecurityCenter.encypt(enMsg);
+                                 Log.i(BinderPoolService.TAG, "Client --> 解密deMsg：" + deMsg);
+                             } catch (RemoteException e) {
+                                 e.printStackTrace();
+                             }
 
-                         IBinder computeBinder=binderPool.queryBinder(BinderPool.BINDER_COMPUTE);
-                         mICompute= BinderPool.ComputeImpl.asInterface(computeBinder);
-                         try {
-                             Log.i(BinderPoolService.TAG, "Client -->  3+5="+mICompute.add(3,5));
-                         } catch (RemoteException e) {
-                             e.printStackTrace();
+                             IBinder computeBinder = binderPool.queryBinder(BinderPool.BINDER_COMPUTE);
+                             mICompute = BinderPool.ComputeImpl.asInterface(computeBinder);
+                             try {
+                                 Log.i(BinderPoolService.TAG, "Client -->  3+5=" + mICompute.add(3, 5));
+                             } catch (RemoteException e) {
+                                 e.printStackTrace();
+                             }
                          }
                      }
                  }.start();
@@ -335,9 +337,7 @@
 
      }
 
-     private String FormatDateTime(Long time){
-         return new SimpleDateFormat("(HH:mm:ss)").format(new Date(time));
-     }
+     private String FormatDateTime(Long time){ return new SimpleDateFormat("(HH:mm:ss)").format(new Date(time)); }
 
 
      @Override

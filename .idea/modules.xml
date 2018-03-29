@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/AndroidDevelopeArtExplore.iml" filepath="$PROJECT_DIR$/AndroidDevelopeArtExplore.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/mode-ipc/mode-ipc.iml" filepath="$PROJECT_DIR$/mode-ipc/mode-ipc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module_view/module_view.iml" filepath="$PROJECT_DIR$/module_view/module_view.iml" />
     </modules>
   </component>
 </project>

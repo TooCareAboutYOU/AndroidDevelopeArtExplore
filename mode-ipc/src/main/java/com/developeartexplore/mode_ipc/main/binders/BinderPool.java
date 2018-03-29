@@ -24,10 +24,11 @@ public class BinderPool {
 
     private Context mContext;
     private IBinderPool mIBinderPool;
+    private Intent service;
 
     private volatile static BinderPool singleton;
 
-    private CountDownLatch mCountDownLatch;
+    private CountDownLatch mCountDownLatch;  //将bindService方法调用的异步操作换成同步操作
 
     private BinderPool(Context context) {
         mContext = context.getApplicationContext();
@@ -45,9 +46,20 @@ public class BinderPool {
         return singleton;
     }
 
+
+    private IBinder.DeathRecipient mDeathRecipient = new IBinder.DeathRecipient() {
+        @Override
+        public void binderDied() {
+            Log.i(BinderPoolService.TAG, "binderDied: ");
+            mIBinderPool.asBinder().unlinkToDeath(mDeathRecipient, 0);
+            mIBinderPool = null;
+            connectBinderPoolService();
+        }
+    };
+
     private synchronized void connectBinderPoolService() {
         mCountDownLatch = new CountDownLatch(1);
-        Intent service = new Intent(mContext, BinderPoolService.class);
+        service = new Intent(mContext, BinderPoolService.class);
         mContext.bindService(service, mBinderPoolConnection, Context.BIND_AUTO_CREATE);
         try {
             mCountDownLatch.await();
@@ -56,16 +68,10 @@ public class BinderPool {
         }
     }
 
-    public IBinder queryBinder(int binderCode) {
-        IBinder binder = null;
-        try {
-            if (mIBinderPool != null) {
-                binder = mIBinderPool.queryBinder(binderCode);
-            }
-        } catch (RemoteException e) {
-            e.printStackTrace();
+    public void unbindservice(){
+        if (service != null) {
+            mContext.unbindService(mBinderPoolConnection);
         }
-        return binder;
     }
 
     private ServiceConnection mBinderPoolConnection = new ServiceConnection() {
@@ -88,15 +94,17 @@ public class BinderPool {
     };
 
 
-    private IBinder.DeathRecipient mDeathRecipient = new IBinder.DeathRecipient() {
-        @Override
-        public void binderDied() {
-            Log.i(BinderPoolService.TAG, "binderDied: ");
-            mIBinderPool.asBinder().unlinkToDeath(mDeathRecipient, 0);
-            mIBinderPool = null;
-            connectBinderPoolService();
+    public IBinder queryBinder(int binderCode) {
+        IBinder binder = null;
+        try {
+            if (mIBinderPool != null) {
+                binder = mIBinderPool.queryBinder(binderCode);
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
-    };
+        return binder;
+    }
 
 
     public static class BinderPoolImpl extends IBinderPool.Stub {
@@ -124,6 +132,7 @@ public class BinderPool {
             return binder;
         }
     }
+
 
     public static class SecurityCenterImpl extends ISecurityCenter.Stub {
 
